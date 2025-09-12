@@ -1,29 +1,27 @@
 """
-Constrained SHAP module for FQE Framework explainability.
-Applies SHAP under regulatory and domain constraints.
+Constrained SHAP module for FQE Framework.
+Implements domain-specific constraints for SHAP explanations.
 """
+
 import shap
+import numpy as np
 
 class ConstrainedSHAP:
-    def __init__(self, model, constraints=None):
+    def __init__(self, model, background_data, feature_names, constraints=None):
         self.model = model
+        self.background_data = background_data
+        self.feature_names = feature_names
         self.constraints = constraints or {}
+        self.explainer = shap.Explainer(model, background_data)
 
-    def explain(self, X):
+    def explain(self, data_row):
         """
-        Generates SHAP values with applied constraints.
-
-        Args:
-            X: Input samples.
-
-        Returns:
-            shap_values: SHAP values with constraints applied.
+        Explains prediction for a single row using SHAP with domain constraints.
         """
-        explainer = shap.Explainer(self.model, X)
-        shap_values = explainer(X)
-        # Apply constraints (e.g., mask sensitive features)
-        if self.constraints.get("mask_features"):
-            for feature in self.constraints["mask_features"]:
-                idx = list(X.columns).index(feature)
-                shap_values.values[:, idx] = 0
-        return shap_values
+        shap_values = self.explainer(np.array([data_row]))
+        result = dict(zip(self.feature_names, shap_values.values[0]))
+        # Apply constraints if any
+        for feature, rule in self.constraints.items():
+            if feature in result:
+                result[feature] = rule(result[feature])
+        return result
