@@ -1,0 +1,1 @@
+# Implementation of FA-GAN for adversarial training.
