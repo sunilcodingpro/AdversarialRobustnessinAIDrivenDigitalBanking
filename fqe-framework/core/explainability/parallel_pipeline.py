@@ -1,15 +1,24 @@
 """
-Parallel Explainability Pipeline for FQE Framework.
-Runs multiple explainers in parallel for robustness.
+Parallel pipeline for combining multiple explainability methods in FQE Framework.
 """
+
 from concurrent.futures import ThreadPoolExecutor
 
-class ParallelExplainabilityPipeline:
+class ParallelPipeline:
     def __init__(self, explainers):
-        self.explainers = explainers  # Dict of {name: explainer instance}
+        self.explainers = explainers
 
-    def run(self, X):
+    def explain(self, data_row):
+        """
+        Runs all explainers in parallel and returns their results.
+        """
+        results = {}
         with ThreadPoolExecutor() as executor:
-            futures = {name: executor.submit(exp.explain, X) for name, exp in self.explainers.items()}
-            results = {name: future.result() for name, future in futures.items()}
+            future_to_name = {
+                executor.submit(explainer.explain, data_row): name
+                for name, explainer in self.explainers.items()
+            }
+            for future in future_to_name:
+                name = future_to_name[future]
+                results[name] = future.result()
         return results
