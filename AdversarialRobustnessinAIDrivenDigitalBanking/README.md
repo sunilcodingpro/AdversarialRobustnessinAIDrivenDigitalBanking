@@ -52,7 +52,7 @@ If you use this project, please cite it using the following:
 
 ```bibtex
 @software{sunilcodingpro_2025_adversarialrobustness,
-  author       = {Your Name},
+  author       = {Chinnayyagari, Sunil},
   title        = {Adversarial Robustness in AI-Driven Digital Banking},
   year         = 2025,
   publisher    = {Zenodo},
@@ -70,7 +70,7 @@ Or, use the badge above in your README/documentation.
 
 ## Authors
 
-- Your Name — [sunilcodingpro](https://github.com/sunilcodingpro)
+- Chinnayyagari, Sunil — [sunilcodingpro](https://github.com/sunilcodingpro)
 
 ## Acknowledgements
 
