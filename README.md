@@ -1,6 +1,5 @@
 # Adversarial Robustness in AI-Driven Digital Banking
-
-This repository focuses on exploring various adversarial robustness techniques in the context of AI-driven digital banking solutions. The aim is to enhance the security and reliability of AI models deployed in banking applications.
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17111552.svg)](https://doi.org/10.5281/zenodo.17111552)
 
 ## Overview
 
